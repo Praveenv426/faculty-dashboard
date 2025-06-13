@@ -123,46 +123,50 @@ const Timetable = () => {
       <Card className="bg-black/30 backdrop-blur-lg border-white/10 glass">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <div className="min-w-full">
+            <table className="w-full min-w-[800px]">
               {/* Header Row */}
-              <div className="grid grid-cols-8 border-b border-white/10">
-                <div className="p-3 font-semibold text-white/70 bg-white/5">Time</div>
-                {daysOfWeek.map((day) => (
-                  <div key={day} className="p-3 font-semibold text-white text-center bg-white/5 border-l border-white/10">
-                    {day}
-                  </div>
-                ))}
-              </div>
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="p-3 text-left font-semibold text-white/70 bg-white/5 w-32">Time</th>
+                  {daysOfWeek.map((day) => (
+                    <th key={day} className="p-3 text-center font-semibold text-white bg-white/5 border-l border-white/10 min-w-[120px]">
+                      {day}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
 
               {/* Time Slot Rows */}
-              {timeSlots.map((timeSlot, timeIndex) => (
-                <div key={timeSlot} className="grid grid-cols-8 border-b border-white/10">
-                  <div className="p-3 text-white/70 bg-white/5 font-medium text-sm">
-                    {timeSlot}
-                  </div>
-                  {daysOfWeek.map((day) => {
-                    const classData = timetableData[day as keyof typeof timetableData][timeIndex];
-                    return (
-                      <div key={`${day}-${timeIndex}`} className="border-l border-white/10">
-                        {classData.subject && classData.subject !== "Free" ? (
-                          <div className={`m-1 p-2 rounded-lg border ${getSubjectColor(classData.subject)} transition-all hover:glow cursor-pointer`}>
-                            <div className="text-white font-medium text-xs mb-1">{classData.subject}</div>
-                            {classData.room && (
-                              <div className="text-white/60 text-xs">{classData.room}</div>
-                            )}
-                            {classData.faculty && (
-                              <div className="text-white/50 text-xs mt-1">{classData.faculty}</div>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="m-1 p-2 h-16 rounded-lg bg-white/5"></div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
+              <tbody>
+                {timeSlots.map((timeSlot, timeIndex) => (
+                  <tr key={timeSlot} className="border-b border-white/10">
+                    <td className="p-3 text-white/70 bg-white/5 font-medium text-sm align-top">
+                      {timeSlot}
+                    </td>
+                    {daysOfWeek.map((day) => {
+                      const classData = timetableData[day as keyof typeof timetableData][timeIndex];
+                      return (
+                        <td key={`${day}-${timeIndex}`} className="border-l border-white/10 p-1 align-top">
+                          {classData.subject && classData.subject !== "Free" ? (
+                            <div className={`h-full p-2 rounded-lg border ${getSubjectColor(classData.subject)} transition-all hover:glow cursor-pointer min-h-[60px] flex flex-col justify-center`}>
+                              <div className="text-white font-medium text-xs mb-1 text-center">{classData.subject}</div>
+                              {classData.room && (
+                                <div className="text-white/60 text-xs text-center">{classData.room}</div>
+                              )}
+                              {classData.faculty && (
+                                <div className="text-white/50 text-xs mt-1 text-center">{classData.faculty}</div>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="h-full p-2 min-h-[60px] rounded-lg bg-white/5"></div>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </CardContent>
       </Card>
